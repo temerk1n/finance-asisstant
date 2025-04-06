@@ -1,8 +1,8 @@
 import { FC, memo, useCallback } from 'react';
 import { Button, DatePicker, Flex, Form, Select } from 'antd';
 import { defaultFilters, useFilters } from '../../contexts';
-import { SKIP_TYPES, STATUSES } from '../../constants.ts';
-import { SkipType, Status } from '../../types.ts';
+import { DEPARTMENTS, SKIP_TYPES, STATUSES } from '../../constants.ts';
+import { Department, SkipType, Status } from '../../types.ts';
 
 const { RangePicker } = DatePicker;
 
@@ -14,6 +14,10 @@ const statusOptions = STATUSES.map((status) => {
     return { value: status, label: status };
 });
 
+const departmentOptions = DEPARTMENTS.map((department) => {
+    return { value: department, label: department };
+});
+
 interface Props {
     closeModal: () => void;
 }
@@ -21,6 +25,7 @@ interface Props {
 type FiltersForm = {
     skipType?: SkipType;
     status?: Status;
+    department?: Department;
     date?: [Date | undefined, Date | undefined];
 };
 
@@ -37,6 +42,7 @@ export const Filters: FC<Props> = memo(({ closeModal }) => {
             setFilters?.({
                 skipType: values.skipType,
                 status: values.status,
+                department: values.department,
                 date: {
                     from: values.date?.[0],
                     to: values.date?.[1],
@@ -75,6 +81,15 @@ export const Filters: FC<Props> = memo(({ closeModal }) => {
                 <RangePicker
                     allowClear
                     placeholder={['От', 'До']}
+                />
+            </Form.Item>
+            <Form.Item
+                name="department"
+                label="Подразделение">
+                <Select
+                    allowClear
+                    placeholder="Подразделение"
+                    options={departmentOptions}
                 />
             </Form.Item>
             <Form.Item>

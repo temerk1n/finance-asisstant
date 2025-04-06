@@ -1,16 +1,11 @@
 import { CSSProperties, FC } from 'react';
 import { Avatar, Flex, Space } from 'antd';
-import { CheckCircleOutlined, UserOutlined } from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
 
 const rootStyle: CSSProperties = {
     height: '100%',
     borderRight: '1px solid lightgray',
     padding: '4px',
-};
-
-const iconStyle: CSSProperties = {
-    width: '64px',
-    height: '64px',
 };
 
 export const SideBar: FC = () => {
@@ -21,13 +16,14 @@ export const SideBar: FC = () => {
             style={rootStyle}>
             <Flex
                 vertical
-                align="center">
-                <Space style={iconStyle}>
-                    <CheckCircleOutlined
-                        width={64}
-                        height={64}
-                    />
-                </Space>
+                align="center"
+                gap="small">
+                <img
+                    width={64}
+                    height={393}
+                    src="/сервисы.png"
+                    alt="сервис1"
+                />
             </Flex>
             <Space
                 direction="vertical"

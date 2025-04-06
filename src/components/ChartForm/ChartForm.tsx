@@ -1,7 +1,8 @@
 import { FC } from 'react';
 import { Button, DatePicker, Form, Select } from 'antd';
-import { pieDataMock } from '../../__mocks__/pieDataMock.ts';
 import { DEPARTMENTS } from '../../constants.ts';
+import { filterDataForCharts, filterLineChartData } from '../../utils.ts';
+import { LineChartData } from '../../types.ts';
 
 const { RangePicker } = DatePicker;
 
@@ -10,21 +11,21 @@ const departmentsOptions = DEPARTMENTS.map((department) => {
 });
 
 type FormItems = {
-    date?: [string, string];
+    date?: [Date, Date];
     department?: string;
 };
 
 interface Props {
-    setData: (data: typeof pieDataMock) => void;
+    setChartData: (data?: number[]) => void;
+    setLineChartData: (data?: LineChartData) => void;
 }
 
-export const ChartForm: FC<Props> = ({ setData }) => {
+export const ChartForm: FC<Props> = ({ setChartData, setLineChartData }) => {
     const [form] = Form.useForm<FormItems>();
 
     const onFinish = (values: FormItems) => {
-        console.log(values);
-        // api request and then setData
-        setData(pieDataMock);
+        setChartData(filterDataForCharts(values));
+        setLineChartData(filterLineChartData(values));
     };
 
     return (
@@ -35,6 +36,7 @@ export const ChartForm: FC<Props> = ({ setData }) => {
             <Form.Item name="department">
                 <Select
                     showSearch
+                    allowClear
                     placeholder="Подразделение"
                     options={departmentsOptions}
                 />

@@ -1,9 +1,10 @@
 import { FC, useEffect, useState } from 'react';
 import { Table, TableColumnsType } from 'antd';
 import { applicationsMock } from '../../__mocks__/applicationsMock.ts';
-import { filterData } from './utils.ts';
 import { useFilters } from '../../contexts';
 import { Application } from '../../types.ts';
+import { filterApplications } from '../../utils.ts';
+import './style.css';
 
 const columns: TableColumnsType<Application> = [
     {
@@ -50,11 +51,19 @@ export const ApplicationsTable: FC<Props> = ({ searchValue }) => {
     const [data, setData] = useState<Application[]>();
 
     useEffect(() => {
-        setData(filterData(applicationsMock, filters, searchValue));
+        setData(filterApplications(applicationsMock, filters, searchValue));
     }, [filters, searchValue]);
 
     return (
         <Table
+            rowClassName={(record) => {
+                if (!record.recommended) {
+                    return 'not-recommended';
+                } else {
+                    return '';
+                }
+            }}
+            rowHoverable={false}
             columns={columns}
             dataSource={data}
             bordered
