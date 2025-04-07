@@ -32,6 +32,7 @@ export const PieChart: FC<Props> = ({ chartData }) => {
                 ],
             }}
             options={{
+                responsive: true,
                 plugins: {
                     legend: {
                         position: 'bottom' as const,

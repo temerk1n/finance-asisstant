@@ -28,3 +28,5 @@ export const STATUSES: Status[] = [
     'Техническая ошибка',
     'Отменена',
 ];
+
+export const ABSENCE_WARNING = 10;

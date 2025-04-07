@@ -1,7 +1,8 @@
 import { Flex, Typography } from 'antd';
 import { useState } from 'react';
-import { ApplicationsTable, SearchForm } from '../../components';
 import { defaultFilters, FiltersContext } from '../../contexts';
+import { SearchForm } from '../../components/SearchForm/SearchForm.tsx';
+import { ApplicationsTable } from '../../components/ApplicationsTable/ApplicationsTable.tsx';
 import { Filters } from '../../types.ts';
 
 const { Title } = Typography;

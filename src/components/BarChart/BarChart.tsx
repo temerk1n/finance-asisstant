@@ -20,24 +20,6 @@ ChartJS.register(
     Legend,
 );
 
-const options = {
-    plugins: {
-        title: {
-            display: true,
-            text: 'Количество отсутствий каждого типа',
-        },
-    },
-    responsive: true,
-    scales: {
-        x: {
-            stacked: true,
-        },
-        y: {
-            stacked: true,
-        },
-    },
-};
-
 interface Props {
     chartData?: number[];
 }
@@ -45,7 +27,6 @@ interface Props {
 export const BarChart: FC<Props> = ({ chartData }) => {
     return (
         <Bar
-            options={options}
             data={{
                 labels: SKIP_TYPES,
                 datasets: [
@@ -55,6 +36,23 @@ export const BarChart: FC<Props> = ({ chartData }) => {
                         backgroundColor: 'rgb(255, 99, 132)',
                     },
                 ],
+            }}
+            options={{
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Количество отсутствий каждого типа',
+                    },
+                },
+                responsive: true,
+                scales: {
+                    x: {
+                        stacked: true,
+                    },
+                    y: {
+                        stacked: true,
+                    },
+                },
             }}
         />
     );

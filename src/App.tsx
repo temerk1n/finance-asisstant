@@ -1,7 +1,8 @@
 import { FC } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router';
-import { Layout, NotFound } from './components';
 import { AnalyticsPage, ApplicationsPage, HomePage } from './pages';
+import { NotFound } from './components/NotFound/NotFound.tsx';
+import { Layout } from './components/Layout/Layout.tsx';
 
 const App: FC = () => {
     return (

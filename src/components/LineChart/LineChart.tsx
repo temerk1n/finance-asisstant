@@ -22,19 +22,6 @@ ChartJS.register(
     Legend,
 );
 
-const options = {
-    responsive: true,
-    plugins: {
-        legend: {
-            position: 'top' as const,
-        },
-        title: {
-            display: true,
-            text: 'Количество отсутствующих сотрудников по дням',
-        },
-    },
-};
-
 interface Props {
     lineChartData: LineChartData;
 }
@@ -53,7 +40,18 @@ export const LineChart: FC<Props> = ({ lineChartData }) => {
                     },
                 ],
             }}
-            options={options}
+            options={{
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top' as const,
+                    },
+                    title: {
+                        display: true,
+                        text: 'Количество отсутствующих сотрудников по дням',
+                    },
+                },
+            }}
         />
     );
 };
