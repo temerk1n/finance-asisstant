@@ -29,4 +29,4 @@ export const STATUSES: Status[] = [
     'Отменена',
 ];
 
-export const ABSENCE_WARNING = 10;
+export const ABSENCE_WARNING = 7;

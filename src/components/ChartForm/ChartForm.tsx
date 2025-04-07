@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { Button, DatePicker, Form, Select } from 'antd';
-import { DEPARTMENTS } from '../../constants.ts';
+import { Button, DatePicker, Form, notification, Select } from 'antd';
+import { ABSENCE_WARNING, DEPARTMENTS } from '../../constants.ts';
 import { filterDataForCharts, filterLineChartData } from '../../utils.ts';
 import { LineChartData } from '../../types.ts';
 
@@ -22,33 +22,56 @@ interface Props {
 
 export const ChartForm: FC<Props> = ({ setChartData, setLineChartData }) => {
     const [form] = Form.useForm<FormItems>();
+    const [notificationApi, NotificationContext] =
+        notification.useNotification();
 
     const onFinish = (values: FormItems) => {
-        setChartData(filterDataForCharts(values));
+        const filteredChartData = filterDataForCharts(values);
+        setChartData(filteredChartData);
         setLineChartData(filterLineChartData(values));
+
+        if (
+            filteredChartData &&
+            values.department &&
+            filteredChartData.reduce((acc, curr) => acc + curr, 0) >
+                ABSENCE_WARNING
+        ) {
+            notificationApi.warning({
+                message: 'Уведомление',
+                description: `Количество отсутствий больше ${ABSENCE_WARNING}`,
+                placement: 'bottomRight',
+                duration: 5,
+            });
+        }
     };
 
     return (
-        <Form
-            layout="inline"
-            form={form}
-            onFinish={onFinish}>
-            <Form.Item name="department">
-                <Select
-                    showSearch
-                    allowClear
-                    placeholder="Подразделение"
-                    options={departmentsOptions}
-                />
-            </Form.Item>
-            <Form.Item name="date">
-                <RangePicker
-                    placeholder={['Дата начала периода', 'Дата конца периода']}
-                />
-            </Form.Item>
-            <Form.Item>
-                <Button htmlType="submit">Показать</Button>
-            </Form.Item>
-        </Form>
+        <>
+            <Form
+                layout="inline"
+                form={form}
+                onFinish={onFinish}>
+                <Form.Item name="department">
+                    <Select
+                        showSearch
+                        allowClear
+                        placeholder="Подразделение"
+                        options={departmentsOptions}
+                    />
+                </Form.Item>
+                <Form.Item name="date">
+                    <RangePicker
+                        placeholder={[
+                            'Дата начала периода',
+                            'Дата конца периода',
+                        ]}
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Button htmlType="submit">Показать</Button>
+                </Form.Item>
+            </Form>
+            {NotificationContext}
+        </>
     );
 };
