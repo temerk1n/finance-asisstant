@@ -142,7 +142,8 @@ export const filterLineChartData = (
             const date = new Date(label);
             if (
                 date >= application.datesOfAbsence.from &&
-                date <= application.datesOfAbsence.to
+                date <= application.datesOfAbsence.to &&
+                application.department === conditions.department
             ) {
                 data[i] += 1;
             }
