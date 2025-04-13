@@ -115,38 +115,36 @@ function datediff(first, second) {
 export const filterLineChartData = (
     conditions: Conditions,
 ): LineChartData | undefined => {
-    const labels: string[] = [];
-
     if (!conditions.date) {
         return undefined;
     }
     const [startDate, endDate] = conditions.date;
+    const department = conditions.department;
 
+    const labels: Date[] = [];
     for (let i = 0; i < datediff(startDate, endDate); i++) {
-        labels.push(
-            new Date(
-                Number(startDate) + i * 24 * 3600 * 1000,
-            ).toLocaleDateString(),
-        );
+        labels.push(new Date(Number(startDate) + i * 24 * 3600 * 1000));
     }
 
     const data: number[] = new Array(labels.length).fill(0);
 
     applicationsMock.forEach((application) => {
-        labels.forEach((label, i) => {
-            const date = new Date(label);
+        labels.forEach((date, i) => {
             if (
                 date >= application.datesOfAbsence.from &&
-                date <= application.datesOfAbsence.to &&
-                application.department === conditions.department
+                date <= application.datesOfAbsence.to
             ) {
-                data[i] += 1;
+                if (!department) {
+                    data[i] += 1;
+                } else if (application.department === department) {
+                    data[i] += 1;
+                }
             }
         });
     });
 
     return {
-        labels: labels,
-        data: data,
+        labels: labels.map((label) => label.toLocaleDateString()),
+        data,
     };
 };
