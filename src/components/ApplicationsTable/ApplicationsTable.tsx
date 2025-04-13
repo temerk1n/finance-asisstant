@@ -57,7 +57,10 @@ export const ApplicationsTable: FC<Props> = ({ searchValue }) => {
     return (
         <Table
             rowClassName={(record) => {
-                if (!record.recommended) {
+                if (
+                    !record.recommended &&
+                    record.status === 'Отправлено на согласование'
+                ) {
                     return 'not-recommended';
                 } else {
                     return '';
