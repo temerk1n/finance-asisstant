@@ -132,11 +132,6 @@ export const filterLineChartData = (
 
     const data: number[] = new Array(labels.length).fill(0);
 
-    // const filteredData = applicationsMock.filter(
-    //     (application) =>
-    //         application.department === conditions.department &&
-    //         conditions.department,
-    // );
     applicationsMock.forEach((application) => {
         labels.forEach((label, i) => {
             const date = new Date(label);
