@@ -1,8 +1,9 @@
 import { FC } from 'react';
 import { Button, DatePicker, Form, notification, Select } from 'antd';
-import { ABSENCE_WARNING, DEPARTMENTS } from '../../constants.ts';
+import { ABSENCE_WARNING_PERCENTAGE, DEPARTMENTS } from '../../constants.ts';
 import { filterDataForCharts, filterLineChartData } from '../../utils.ts';
 import { LineChartData } from '../../types.ts';
+import { applicationsMock } from '../../__mocks__/applicationsMock.ts';
 
 const { RangePicker } = DatePicker;
 
@@ -30,15 +31,23 @@ export const ChartForm: FC<Props> = ({ setChartData, setLineChartData }) => {
         setChartData(filteredChartData);
         setLineChartData(filterLineChartData(values));
 
+        // Общее количество сотрудников в отделе
+        const employeesCount = applicationsMock.filter(
+            (application) => application.department === values.department,
+        ).length;
+
+        // Количество заявок в отделе
+        const absenceCount =
+            filteredChartData?.reduce((acc, curr) => acc + curr, 0) || 0;
+
         if (
             filteredChartData &&
             values.department &&
-            filteredChartData.reduce((acc, curr) => acc + curr, 0) >
-                ABSENCE_WARNING
+            absenceCount >= employeesCount * ABSENCE_WARNING_PERCENTAGE
         ) {
             notificationApi.warning({
                 message: 'Уведомление',
-                description: `Количество отсутствий больше ${ABSENCE_WARNING}`,
+                description: `Отсутствует более ${ABSENCE_WARNING_PERCENTAGE * 100}% сотрудников`,
                 placement: 'bottomRight',
                 duration: 5,
             });

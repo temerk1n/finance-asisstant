@@ -30,3 +30,4 @@ export const STATUSES: Status[] = [
 ];
 
 export const ABSENCE_WARNING = 7;
+export const ABSENCE_WARNING_PERCENTAGE = 0.7;
